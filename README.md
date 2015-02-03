@@ -10,7 +10,7 @@ The __query__ method takes a callback and stop searching when the callback retur
 
 ```js
 // "obj" is a JavaScript object or a JSON structure
-var res = kvq(obj).query(function (node) {
+var res = kvp(obj).query(function (node) {
 	// the node parameter is an object with the properties "key", "value", and "pointer"
 	if (typeof node.value === 'string' && node.value.match(/ur/)) {
 		// if it is a hit, return true
