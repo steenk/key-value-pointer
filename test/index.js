@@ -41,14 +41,18 @@ describe('Testing KVP', function () {
 			assert(res === 100);
 		});
 		it('should return changed value', function () {
-			res = k.query(function (node) {
+			var res = k.query(function (node) {
 				if (node.key === 'c') {
 					this.replace(node.pointer, 'doggy');
 					return true;
 				}
 			});
 			assert(res === 'doggy');
-		})
+		});
+		it('should return undefined withour error', function () {
+			var res = k.query(function () {});
+			assert(res === undefined);
+		});
 	});
 
 	describe('select tests', function () {
