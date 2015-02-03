@@ -1,18 +1,23 @@
-# JSON Key-Value-Pointer
+# Key-Value-Pointer
 
-The KVP library is for query and handling JSON and JavaScript objects. The purpose is to use simple methods that feels very natural for a JavaScript programmer, instead of using some kind of query language that tries to imitate CSS and XML querying. Inspired by the __map__ method in arrays where a callback is applied to every item, the __query__ method here will evaluate every item with a callback. When the the callback returns a __true__ value, it all stops.
+The KVP library is for query and handle JSON and JavaScript objects. The purpose is to use simple methods that feels very natural for a JavaScript programmer, instead of using some kind of query language that tries to imitate CSS and XML querying. Inspired by the __map__ method in arrays where a callback is applied to every item, the __query__ method here will evaluate every item with a callback. When the the callback returns a __true__ value, it all stops.
 
-Start by wrapping your JavaScript object, or JSON string with the __kvp__ function. The resulting object has a few methods you can use for easy handling of your object.
+Start by wrap your JavaScript object, or JSON string with the __kvp__ function. The resulting object has a few methods that you can use for easy handling of your object.
 
 ## query
 
-The __query__ method takes a callback and stop searching when the callback returns __true__. The parameter passed to the callback is a JavaScript object with the properties _key_, _value_, and _pointer_, where _key_ is a string with the name of the node, _value_ is its value of any kind, and pointer is the JSON Pointer string for the node. By evaluting these properties, the callback can decide to stop the search by returning a true value. The return value of the _query_ method is the value of the hit.
+The __query__ method takes a callback and stop searching when the callback returns __true__. The parameter passed to the callback is a JavaScript object with the properties _key_, _value_, and _pointer_, where _key_ is a string with the name of the node, _value_ is its value or reference, if it is an object, and _pointer_ is the [JSON Pointer](https://tools.ietf.org/html/rfc6901) string for the node. By evaluating these properties, the callback can decide to stop the search by returning a true value. The return value of the _query_ method is the value of the hit.
 
 ```js
 // "obj" is a JavaScript object or a JSON structure
 var res = kvp(obj).query(function (node) {
 	// the node parameter is an object with the properties "key", "value", and "pointer"
-	if (typeof node.value === 'string' && node.value.match(/ur/)) {
+	// {
+	//   key: 'title',
+	//   value: 'Semantic Version',
+	//   pointer: '/definitions/semVer/title'
+	// }
+	if (typeof node.value === 'string' && node.value.match(/tic/)) {
 		// if it is a hit, return true
 		return true;
 	}
@@ -21,7 +26,7 @@ var res = kvp(obj).query(function (node) {
 
 ## select
 
-When a JSON Pointer is known, its value can immedietly be selected by the __select__ method. Pass the pointer as a parameter.
+When a JSON Pointer is known, its value can immediately be selected by the __select__ method. Pass the pointer as a parameter.
 
 ```js
 // the fifth item in the array "d"
@@ -79,4 +84,60 @@ In the browser without a module loader:
   // ...
 </script>
 ```
+
+## Select Many
+
+There is no method for a query with many results, because less is more in libraries like this. It doesn't mean that you can't do it, but you have to make your own function that fit your special need. Here is an example of how you can find all nodes in a JSON structure with a certain key name.
+
+```js
+function queryAll (json, name)	{
+	var list = [];
+	kvp(obj).query(function (node) {
+			if (node.key === name) {
+				list.push(node.value);
+			}
+		}
+	)
+	return list;
+}
+
+var all_zip_codes = queryAll(json_doc, 'zip'));
+```
+
+In the callback you have the _key_, the _value_, and the position in the document in form of a JSON Pointer string for each node in the document. You can do all kinds of calculations on these. If the node is an object, you can actually change it directly, since _node.value_ is a reference to the original object (unless it is a JSON string). Inside the callback function, you can also use the build in methods _select_, _replace_, and _remove_ on the original object calling them with "this". So you can copy and move parts of the document to other places in the document.
+
+Another example. Here we want an index of all nodes directly under all objects with the key name "properties", and later use this index to add a propery in the original object.
+
+```js
+// run in Node.js
+var kvp = require('key-value-pointer'),
+	request = JSON.parse(require('sync-request'),
+	doc = request('GET', 'http://steenk.github.io/schemas/doc.json').getBody());
+
+function indexProperties (obj)	{
+	var idx = {};
+	kvp(obj).query(function (node) {
+			if (node.pointer.match(/properties\/[^\/]+$/)) {
+				idx[node.key] = node.value;
+			}
+		}
+	)
+	return idx;
+}
+
+// before change
+console.log(doc.properties.git);
+
+// make an index of propertiy names with reference to their place
+var props = indexProperties(doc)
+console.log(Object.keys(props));
+
+// insert something with the index
+if (props['git']) props['git'].type = 'string';
+
+// see how the original object has changed
+console.log(doc.properties.git);
+```
+
+A JSON document is fetched from the Internet, and converted to a JavaScript object with _JSON.parse_. The function returns a list of keys and references to their position in the doc object. After a check that the name "git" exists, a property "type" is added in the doc.
 
