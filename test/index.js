@@ -29,6 +29,10 @@ describe('Testing KVP', function () {
 		it('should have a remove method', function () {
 			assert(typeof k.remove === 'function');
 		});
+		it('should not crash, but return undefined', function () {
+			var t = kvp();
+			assert(typeof t.getObject() === 'undefined');
+		})
 	});
 
 	describe('query tests', function () {
@@ -73,6 +77,17 @@ describe('Testing KVP', function () {
 			var res = k.select('/d/4');
 			assert(res === 5);
 		});
+		it('should not crash', function () {
+			var t = kvp();
+			assert(typeof t.select('/') === 'undefined');
+		});
+		it('should not crash', function () {
+			console.error('(should give errors in test)');
+			assert(typeof k.select('/dummy') === 'undefined');
+		});
+		it('should not crash', function () {
+			assert(typeof k.select() === 'undefined');
+		});
 	});
 
 	describe('replace tests', function () {
@@ -96,6 +111,10 @@ describe('Testing KVP', function () {
 			var str = k.getJSON();
 			assert(typeof str === 'string');
 		});
+		it('should ', function () {
+			var k = kvp({"foo": "bar"});
+			assert(k.getJSON() === '{"foo":"bar"}');
+		})
 	})
 })
 

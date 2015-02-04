@@ -58,6 +58,15 @@ To remove a node when the JSON Pointer is known, use the __remove__ method.
 ```js
 kvp(obj).remove('/a/b/c');
 ```
+## getObject and getJSON
+
+Two methods for getting the whole structure out of _kvp_.
+
+```js
+var k = kvp({"ok": true});
+var obj = k.getObject();
+var json = k.getJSON();
+```
 
 ## Installation
 
@@ -105,6 +114,18 @@ var all_zip_codes = queryAll(json_doc, 'zip'));
 ```
 
 In the callback you have the _key_, the _value_, and the position in the document in form of a JSON Pointer string for each node in the document. You can do all kinds of calculations on these. If the node is an object, you can actually change it directly, since _node.value_ is a reference to the original object (unless it is a JSON string). Inside the callback function, you can also use the build in methods _select_, _replace_, and _remove_ on the original object calling them with "this". So you can copy and move parts of the document to other places in the document.
+
+```js
+var k = kvp({"what": "foo"});
+var res = k.query(function (node) {
+		if (node.key === 'what') {
+			this.replace(node.pointer, 'bar');
+			return true;
+		}
+		});
+// res === 'bar' and
+// k.getObject() === {'what': 'bar'}
+```
 
 Another example. Here we want an index of all nodes directly under all objects with the key name "properties", and later use this index to add a propery in the original object.
 
