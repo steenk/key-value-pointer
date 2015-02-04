@@ -31,6 +31,7 @@ describe('Testing KVP', function () {
 		});
 		it('should not crash, but return undefined', function () {
 			var t = kvp();
+			console.error('(should give error in test)');
 			assert(typeof t.getObject() === 'undefined');
 		})
 	});
@@ -62,7 +63,7 @@ describe('Testing KVP', function () {
 			});
 			assert(o['aa']['aaa']['y'] === 'YYY');
 		});
-		it('should return undefined withour error', function () {
+		it('should return undefined without error', function () {
 			var res = k.query(function () {});
 			assert(res === undefined);
 		});
@@ -77,15 +78,15 @@ describe('Testing KVP', function () {
 			var res = k.select('/d/4');
 			assert(res === 5);
 		});
-		it('should not crash', function () {
+		it('should not crash when select from an undefined object', function () {
 			var t = kvp();
+			console.error('(should give error in test)');
 			assert(typeof t.select('/') === 'undefined');
 		});
-		it('should not crash', function () {
-			console.error('(should give errors in test)');
+		it('should not crash when select a non existent node', function () {
 			assert(typeof k.select('/dummy') === 'undefined');
 		});
-		it('should not crash', function () {
+		it('should not crash when no pointer in select', function () {
 			assert(typeof k.select() === 'undefined');
 		});
 	});
@@ -100,6 +101,13 @@ describe('Testing KVP', function () {
 			var res = k.select('/e');
 			assert(res);
 		});
+	});
+
+	describe('remove tests', function () {
+		it('should not crash when remove something undefined', function () {
+			var res = k.remove('/dummy');
+			assert(typeof res === 'undefined');
+		})
 	});
 
 	describe('exports', function () {
