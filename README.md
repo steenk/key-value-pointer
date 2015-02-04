@@ -111,32 +111,32 @@ Another example. Here we want an index of all nodes directly under all objects w
 ```js
 // run in Node.js
 var kvp = require('key-value-pointer'),
-	request = JSON.parse(require('sync-request'),
-	doc = request('GET', 'http://steenk.github.io/schemas/doc.json').getBody());
+    request = require('sync-request'),
+    doc = JSON.parse(request('GET', 'https://steenk.github.io/schemas/bacon.json').getBody());
 
-function indexProperties (obj)	{
-	var idx = {};
-	kvp(obj).query(function (node) {
-			if (node.pointer.match(/properties\/[^\/]+$/)) {
-				idx[node.key] = node.value;
-			}
-		}
-	)
-	return idx;
+function indexProperties (obj)  {
+    var idx = {};
+    kvp(obj).query(function (node) {
+            if (node.pointer.match(/properties\/[^\/]+$/)) {
+                idx[node.key] = node.value;
+            }
+        }
+    )
+    return idx;
 }
 
 // before change
-console.log(doc.properties.git);
+console.log('Before:', doc.properties.git);
 
 // make an index of propertiy names with reference to their place
 var props = indexProperties(doc)
-console.log(Object.keys(props));
+console.log('Found names:', Object.keys(props));
 
 // insert something with the index
 if (props['git']) props['git'].type = 'string';
 
 // see how the original object has changed
-console.log(doc.properties.git);
+console.log('After:', doc.properties.git);
 ```
 
 A JSON document is fetched from the Internet, and converted to a JavaScript object with _JSON.parse_. The function returns a list of keys and references to their position in the doc object. After a check that the name "git" exists, a property "type" is added in the doc.
