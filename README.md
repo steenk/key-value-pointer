@@ -127,6 +127,8 @@ var res = k.query(function (node) {
 // k.getObject() === {'what': 'bar'}
 ```
 
+## Make an Index
+
 Another example. Here we want an index of all nodes directly under all objects with the key name "properties", and later use this index to add a propery in the original object.
 
 ```js
@@ -161,4 +163,20 @@ console.log('After:', doc.properties.git);
 ```
 
 A JSON document is fetched from the Internet, and converted to a JavaScript object with _JSON.parse_. The function returns a list of keys and references to their position in the doc object. After a check that the name "git" exists, a property "type" is added in the doc.
+
+## Prevent Deep Search
+
+If you have an object that is many levels deep, and you want to limit how deep you will search. This can be it.
+
+```js
+kvp(obj).query(function (node) {
+	if (node.pointer.split('/').length < 3) {
+		// do your stuff
+	} else {
+		return true;
+	}
+});
+```
+
+	
 
