@@ -86,5 +86,16 @@ describe('Testing KVP', function () {
 			assert(res);
 		});
 	});
+
+	describe('exports', function () {
+		it('should return an object', function () {
+			var obj = k.getObject();
+			assert(typeof obj === 'object');
+		});
+		it('should return a string', function () {
+			var str = k.getJSON();
+			assert(typeof str === 'string');
+		});
+	})
 })
 
