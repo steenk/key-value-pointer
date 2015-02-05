@@ -40,7 +40,7 @@ o['foo']['bar'].push(999);
 
 ## replace
 
-To replace a value in the object or JSON passed to __kvm__, use the method __replace__. It takes two parameters, the JSON Pointer and the new value. It can be used together with the __query__ method, to find where to replace the value.
+To replace a value in the object or JSON passed to __kvp__, use the method __replace__. It takes two parameters, the JSON Pointer and the new value. It can be used together with the __query__ method, to find where to replace the value.
 
 ```js
 kvp(obj).query(function (node) {
