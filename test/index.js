@@ -101,6 +101,11 @@ describe('Testing KVP', function () {
 			var res = k.select('/e');
 			assert(res);
 		});
+		it('should insert', function () {
+			var i = kvp({});
+			i.insert('/foo', 'bar');
+			assert(i.getJSON() === '{"foo":"bar"}');
+		});
 	});
 
 	describe('remove tests', function () {
