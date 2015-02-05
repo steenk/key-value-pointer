@@ -1,6 +1,6 @@
 {
   "name": "key-value-pointer",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Query and handle JSON and JavaScript objects.",
   "main": "kvp.js",
   "directories": {
@@ -8,6 +8,7 @@
   },
   "scripts": {
     "test": "mocha",
+	"build": "node build.js",
     "uglify": "uglifyjs lib/kvp.js -c -m --comments '/License/' > kvp.js"
   },
   "repository": {
@@ -21,7 +22,8 @@
   "keywords": [
     "json",
     "query",
-    "pointer"
+    "pointer",
+	"couchdb"
   ],
   "author": "steenk",
   "license": "MIT",
