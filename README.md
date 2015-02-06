@@ -24,6 +24,25 @@ var res = kvp(obj).query(function (node) {
 }
 ```
 
+The __query__ method is a way to traverse all properties inside a JavaScript object, level by level, and apply the callback on each of these properties. Inside the callback all the __kvp__ methods can be accessible with the __this__ keyword, so a lot of thing can be done.
+
+It is also possible to make the __query__ method start somewhere inside the object, instead of traverse all levels, by passing a JSON Pointer before the callback. Here is an example of an object with a list of values, and a property saying what should be the max value in the list. Our query will start in the list property, but can access the whole object inside the callback, and in this case change all values exceeding the max value.
+
+```js
+var points = {
+	max: 10,
+	list: [2, 5, 13, 8, 15, 3, 7]
+}
+
+kvp(points).query('/list', function (node) {
+    if (node.value > this.select('/max')) {
+        this.replace(node.pointer, this.select('/max'));
+    }
+});
+
+// points === [2, 5, 10, 8, 10, 3, 7]
+```
+
 ## select
 
 When a JSON Pointer is known, its value can immediately be selected by the __select__ method. Pass the pointer as a parameter.
@@ -174,7 +193,7 @@ A JSON document is fetched from the Internet, and converted to a JavaScript obje
 
 ## Prevent Deep Search
 
-If you have an object that is many levels deep, and you want to limit how deep you will search. This can be it.
+If you have an object that is many levels deep, and you want to limit how deep you will search. This is how it is done, because the query traverse the object level by level.
 
 ```js
 kvp(obj).query(function (node) {
