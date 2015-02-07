@@ -1,6 +1,8 @@
 # Key-Value-Pointer
 
-The KVP library is for query and handle JSON and JavaScript objects. The purpose is to use simple methods that feels very natural for a JavaScript programmer, instead of using some kind of query language that tries to imitate CSS and XML querying. Inspired by the __map__ method in arrays where a callback is applied to every item, the __query__ method here will evaluate every item with a callback. When the the callback returns a __true__ value, it all stops.
+The KVP library is for query and handle JSON and JavaScript objects with a tree structure. The purpose is to use simple methods that feels very natural for a JavaScript programmer, instead of using some kind of query language that tries to imitate CSS and XML querying.
+
+JavaScript arrays have built-in methods like __forEach__ and __map__, and simple property objects can be seached by a `for(x in obj) {...}`, but when the object structure gets deeper and more arbitrary, you need to make special solutions to go through the object. Key-Value-Pointer is a library that can help you with that. You simply make a callback function and pass it to the __query__ method. For each node, your callback gets called with a paramenter with the three properties __key__, __value__, and __pointer__. With this information, and a few methods in this library, you can do all kinds of search and transformations in your JavaScript object.
 
 Start by wrap your JavaScript object, or JSON string with the __kvp__ function. The resulting object has a few methods that you can use for easy handling of your object.
 
