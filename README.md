@@ -91,6 +91,18 @@ var obj = k.getObject();
 var json = k.getJSON();
 ```
 
+## dirname and basename
+
+A JSON Pointer is like a path, and it can be seen as a concatenation of a directory and a name. To conveniently get these out of the pointer string, the two methods __dirname__ and __basename__ can be used.
+
+```js
+var pointer = '/usr/var/log';
+var dir = kvp().dirname(pointer);
+// dir === '/usr/var'
+var name = kvp().basename(pointer);
+// name === 'log'
+```
+
 ## Installation
 
 In Node.js:
@@ -119,7 +131,7 @@ In the browser without a module loader:
 
 ## CouchDB and Cloudant
 
-This library is small enough to be used in design documents in CouchDB and Cloudant. An example of a design document is <a href="https://raw.githubusercontent.com/steenk/td-patch/master/design_default.json" target="_blank">design_document.json</a>. With _kvp_ the documents can be analysed better and advanced indexes can be created. Notice the way _require_ is used when importing the library in the function, `var kvp = require("views/lib/kvp").kvp;`.
+This library is small enough to be used in design documents in CouchDB and Cloudant. An example of a design document is <a href="https://raw.githubusercontent.com/steenk/td-patch/master/design_default.json" target="_blank">design_document.json</a>. With _kvp_ the documents can be analyzed better and advanced indexes can be created. Notice the way _require_ is used when importing the library in the function, `var kvp = require("views/lib/kvp").kvp;`.
 
 ## Select Many
 
@@ -203,6 +215,42 @@ kvp(obj).query(function (node) {
 		return true;
 	}
 });
+```
+
+## Replace References
+
+Some document use references to another place in the document. This function replace references with the real value.
+
+```js
+var refs = {
+	a: {'$ref': 'a'},
+	d: {
+		b: {'$ref': 'b'},
+		c: {'$ref': 'c'}
+	},
+	definitions: {
+		a: 1000,
+		b: 2000,
+		c: 3000
+	}
+}
+
+// pass a json makes it a copy
+var k = kvp(JSON.stringify(refs));
+
+k.query(function (node) {
+	if (node.key === '$ref') {
+		var parent = this.dirname(node.pointer);
+		var name = this.basename(parent);
+		this.replace(parent, this.select('/definitions' + name))
+	}
+});
+
+// get the object and delete "definitions"
+var doc = k.getObject();
+delete doc.definitions;
+
+// doc === { a: 1000, d: { b: 2000, c: 3000 } }
 ```
 
 

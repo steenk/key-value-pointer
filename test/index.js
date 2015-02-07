@@ -31,7 +31,6 @@ describe('Testing KVP', function () {
 		});
 		it('should not crash, but return undefined', function () {
 			var t = kvp();
-			console.error('(should give error in test)');
 			assert(typeof t.getObject() === 'undefined');
 		})
 	});
@@ -80,7 +79,6 @@ describe('Testing KVP', function () {
 		});
 		it('should not crash when select from an undefined object', function () {
 			var t = kvp();
-			console.error('(should give error in test)');
 			assert(typeof t.select('/') === 'undefined');
 		});
 		it('should not crash when select a non existent node', function () {
@@ -128,6 +126,18 @@ describe('Testing KVP', function () {
 			var k = kvp({"foo": "bar"});
 			assert(k.getJSON() === '{"foo":"bar"}');
 		})
+	});
+
+	describe('dirname and basename', function () {
+		var p = '/usr/var/log'
+		it('should extract the dir', function () {
+			var dir = kvp().dirname(p);
+			assert(dir == '/usr/var');
+		});
+		it('should extract the name', function () {
+			var name = kvp().basename(p);
+			assert(name === 'log');
+		});
 	})
 })
 
