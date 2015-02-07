@@ -26,7 +26,7 @@ var res = kvp(obj).query(function (node) {
 
 The __query__ method is a way to traverse all properties inside a JavaScript object, level by level, and apply the callback on each of these properties. Inside the callback all the __kvp__ methods can be accessible with the __this__ keyword, so a lot of thing can be done.
 
-It is also possible to make the __query__ method start somewhere inside the object, instead of traverse all levels, by passing a JSON Pointer before the callback. Here is an example of an object with a list of values, and a property saying what should be the max value in the list. Our query will start in the list property, but can access the whole object inside the callback, and in this case change all values exceeding the max value.
+It is also possible to make the __query__ method start somewhere inside the object instead of traverse all levels, by passing a JSON Pointer before the callback. Here is an example of an object with a list of values, and a property saying what should be the max value in the list. Our query will start in the list property, but can access the whole object inside the callback, and in this case change all values exceeding the max value.
 
 ```js
 var points = {
@@ -72,7 +72,7 @@ kvp(obj).query(function (node) {
 ```
 ## insert
 
-The __insert__ method is technically the same as the __replace__ method, but is there for semantic reasons. It is not supposed to replace anything. 
+The __insert__ method is technically the same as the __replace__ method, but is there for semantic reasons. An insert is not supposed to replace anything. 
 
 ## remove
 
@@ -111,7 +111,7 @@ In Node.js:
 npm install key-value-pointer
 ```
 
-In the browser with an AMD loader:
+In the browser, download [kvp.js](https://raw.githubusercontent.com/steenk/key-value-pointer/master/kvp.js) and use it with an AMD loader:
 
 ```js
 require(['kvp'], function (kvp) {
@@ -119,7 +119,7 @@ require(['kvp'], function (kvp) {
 })
 ```
 
-In the browser without a module loader:
+Or in the browser without a module loader:
 
 ```js
 <script src="kvp.js"></script>
@@ -152,7 +152,7 @@ function queryAll (json, name)	{
 var all_zip_codes = queryAll(json_doc, 'zip'));
 ```
 
-In the callback you have the _key_, the _value_, and the position in the document in form of a JSON Pointer string for each node in the document. You can do all kinds of calculations on these. If the node is an object, you can actually change it directly, since _node.value_ is a reference to the original object (unless it is a JSON string). Inside the callback function, you can also use the build in methods _select_, _replace_, and _remove_ on the original object calling them with "this". So you can copy and move parts of the document to other places in the document.
+In the callback you have the _key_, the _value_, and the position in the document in form of a JSON Pointer string for each node in the document. You can do all kinds of calculations on these. If the node is an object, you can actually change it directly, since _node.value_ is a reference to the original object (unless it is a JSON string). Inside the callback function, you can also use the built-in methods like _select_, _replace_, and _remove_ on the original object by calling them with "this". So you can copy and move parts of the document to other places in the document.
 
 ```js
 var k = kvp({"what": "foo"});
@@ -205,7 +205,7 @@ A JSON document is fetched from the Internet, and converted to a JavaScript obje
 
 ## Prevent Deep Search
 
-If you have an object that is many levels deep, and you want to limit how deep you will search. This is how it is done, because the query traverse the object level by level.
+You have an object that is many levels deep, and you want to limit how deep your search will be. This is how it is done, because the query traverses the object level by level.
 
 ```js
 kvp(obj).query(function (node) {
@@ -219,7 +219,7 @@ kvp(obj).query(function (node) {
 
 ## Replace References
 
-Some document use references to another place in the document. This function replace references with the real value.
+Some documents use references to another places in the document. This function replace references with their real values.
 
 ```js
 var refs = {
