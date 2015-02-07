@@ -236,9 +236,7 @@ var refs = {
 }
 
 // pass a json makes it a copy
-var k = kvp(JSON.stringify(refs));
-
-k.query(function (node) {
+var doc = kvp(JSON.stringify(refs)).query(function (node) {
 	if (node.key === '$ref') {
 		var parent = this.dirname(node.pointer);
 		var name = this.basename(parent);
@@ -247,8 +245,8 @@ k.query(function (node) {
 });
 
 // get the object and delete "definitions"
-var doc = k.getObject();
 delete doc.definitions;
+
 
 // doc === { a: 1000, d: { b: 2000, c: 3000 } }
 ```

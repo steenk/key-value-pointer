@@ -62,9 +62,9 @@ describe('Testing KVP', function () {
 			});
 			assert(o['aa']['aaa']['y'] === 'YYY');
 		});
-		it('should return undefined without error', function () {
+		it('should return the original object', function () {
 			var res = k.query(function () {});
-			assert(res === undefined);
+			assert(JSON.stringify(res) === JSON.stringify(o));
 		});
 	});
 
