@@ -149,7 +149,7 @@ var res = k.query(function (node) {
 			this.replace(node.pointer, 'bar');
 			return true;
 		}
-		});
+	});
 // res === 'bar' and
 // k.getObject() === {'what': 'bar'}
 ```
@@ -205,5 +205,4 @@ kvp(obj).query(function (node) {
 });
 ```
 
-	
 
