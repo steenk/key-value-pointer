@@ -242,7 +242,7 @@ k.query(function (node) {
 	if (node.key === '$ref') {
 		var parent = this.dirname(node.pointer);
 		var name = this.basename(parent);
-		this.replace(parent, this.select('/definitions' + name))
+		this.replace(parent, this.select('/definitions/' + name))
 	}
 });
 
