@@ -1,6 +1,6 @@
 {
   "name": "key-value-pointer",
-  "version": "0.2.8",
+  "version": "0.3.0",
   "description": "Query and handle JSON and JavaScript objects.",
   "main": "kvp.js",
   "directories": {
@@ -22,7 +22,7 @@
   "keywords": [
     "json",
     "query",
-    "pointer",
+    "json-pointer",
 	"couchdb"
   ],
   "author": "steenk",
