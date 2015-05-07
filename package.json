@@ -1,6 +1,6 @@
 {
   "name": "key-value-pointer",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Query and handle JSON and JavaScript objects.",
   "main": "kvp.js",
   "directories": {
