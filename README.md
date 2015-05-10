@@ -74,7 +74,7 @@ kvp(obj).query(function (node) {
 ```
 ## insert
 
-The __insert__ method is technically the same as the __replace__ method, but is there for semantic reasons. An insert is not supposed to replace anything. 
+The __insert__ method inserts a value in the place the pointer points to. If the structure is not there the __insert__ method creates it. An insert is not supposed to replace anything. 
 
 ## remove
 

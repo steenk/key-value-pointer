@@ -89,6 +89,42 @@ describe('Testing KVP', function () {
 		});
 	});
 
+	describe('insert tests', function () {
+		it('should return false', function () {
+			var res = kvp({}).insert('', 100);
+			assert(!res);
+		});
+		it('should return true', function () {
+			var v = kvp({});
+			var res = v.insert(' ', 100);
+			assert(res);
+		});
+		it('should create object structure', function () {
+			var v = kvp({});
+			var res = v.insert('/A/B/C', 100);
+			assert(res);
+			assert(v.getObject().A.B.C === 100);
+		});
+		it('should create object structure with array', function () {
+			var v = kvp({});
+			var res = v.insert('/A/B/0', 100);
+			assert(res);
+			assert(v.getObject().A.B[0] === 100);
+		});
+		it('should replace an undefined value', function () {
+			var v = kvp({D: undefined});
+			var res = v.insert('/D', 100);
+			assert(res);
+			assert(v.getObject().D === 100);
+		});
+		it('should not replace a value', function () {
+			var v = kvp({D: 200});
+			var res = v.insert('/D', 100);
+			assert(!res);
+			assert(v.getObject().D === 200);
+		});
+	});
+
 	describe('replace tests', function () {
 		it('should return false', function () {
 			k.replace('/e', false);
@@ -107,9 +143,15 @@ describe('Testing KVP', function () {
 	});
 
 	describe('remove tests', function () {
+		it('should remove node', function () {
+			var v = kvp({A:{B:true}});
+			var res = v.remove('/A/B');
+			assert(res);
+			assert(v.getJSON() === '{"A":{}}');
+		})
 		it('should not crash when remove something undefined', function () {
 			var res = k.remove('/dummy');
-			assert(typeof res === 'undefined');
+			assert(!res);
 		})
 	});
 
