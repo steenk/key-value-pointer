@@ -95,13 +95,13 @@ var json = k.getJSON();
 
 ## dirname and basename
 
-A JSON Pointer is like a path, and it can be seen as a concatenation of a directory and a name. To conveniently get these out of the pointer string, the two methods __dirname__ and __basename__ can be used.
+A JSON Pointer is like a path, and it can be seen as a concatenation of a directory and a name. To conveniently get these out of the pointer string, the two methods __dirname__ and __basename__ can be used. 
 
 ```js
 var pointer = '/usr/var/log';
-var dir = kvp().dirname(pointer);
+var dir = kvp.dirname(pointer);
 // dir === '/usr/var'
-var name = kvp().basename(pointer);
+var name = kvp.basename(pointer);
 // name === 'log'
 ```
 
