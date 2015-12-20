@@ -211,7 +211,7 @@ You have an object that is many levels deep, and you want to limit how deep your
 
 ```js
 kvp(obj).query(function (node) {
-	if (node.pointer.split('/').length < 3) {
+	if (node.level < 3) {
 		// do your stuff
 	} else {
 		return true;
