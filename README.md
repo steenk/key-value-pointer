@@ -133,7 +133,7 @@ Or in the browser without a module loader:
 
 ## CouchDB and Cloudant
 
-This library is small enough to be used in design documents in CouchDB and Cloudant. An example of a design document is <a href="https://raw.githubusercontent.com/steenk/td-patch/master/design_default.json" target="_blank">design_document.json</a>. With _kvp_ the documents can be analyzed better and advanced indexes can be created. Notice the way _require_ is used when importing the library in the function, `var kvp = require("views/lib/kvp").kvp;`.
+This library is small enough to be used in design documents in CouchDB and Cloudant. An example of a design document is <a href="https://github.com/steenk/key-value-pointer/blob/master/design_default.json" target="_blank">design_document.json</a>. With _kvp_ the documents can be analyzed better and advanced indexes can be created. Notice the way _require_ is used when importing the library in the function, `var kvp = require("views/lib/kvp").kvp;`.
 
 ## Select Many
 
