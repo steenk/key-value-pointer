@@ -142,7 +142,7 @@ There is no method for a query with many results, because less is more in librar
 ```js
 function queryAll (json, name)	{
 	var list = [];
-	kvp(obj).query(function (node) {
+	kvp(json).query(function (node) {
 			if (node.key === name) {
 				list.push(node.value);
 			}
