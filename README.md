@@ -2,7 +2,7 @@
 
 The KVP library is for query and handle JSON and JavaScript objects with a tree structure. The purpose is to use simple methods that feels very natural for a JavaScript programmer, instead of using some kind of query language that tries to imitate CSS and XML querying.
 
-JavaScript arrays have built-in methods like __forEach__ and __map__, and simple property objects can be seached by a `for(x in obj) {...}`, but when the object structure gets deeper and more arbitrary, you need to make special solutions to go through the object. Key-Value-Pointer is a library that can help you with that. You simply make a callback function and pass it to the __query__ method. For each node, your callback gets called with a paramenter with the three properties __key__, __value__, and __pointer__. With this information, and a few methods in this library, you can do all kinds of search and transformations in your JavaScript object.
+JavaScript arrays have built-in methods like __forEach__ and __map__, and simple property objects can be searched by a `for(x in obj) {...}`, but when the object structure gets deeper and more arbitrary, you need to make special solutions to go through the object. Key-Value-Pointer is a library that can help you with that. You simply make a callback function and pass it to the __query__ method. For each node, your callback gets called with a parameter with the three properties __key__, __value__, and __pointer__. With this information, and a few methods in this library, you can do all kinds of search and transformations in your JavaScript object.
 
 Start by wrap your JavaScript object, or JSON string with the __kvp__ function. The resulting object has a few methods that you can use for easy handling of your object.
 
@@ -23,7 +23,7 @@ var res = kvp(obj).query(function (node) {
 		// if it is a hit, return true
 		return true;
 	}
-}
+});
 ```
 
 The __query__ method is a way to traverse all properties inside a JavaScript object, level by level, and apply the callback on each of these properties. Inside the callback all the __kvp__ methods can be accessible with the __this__ keyword, so a lot of things can be done.
@@ -170,7 +170,7 @@ var res = k.query(function (node) {
 
 ## Make an Index
 
-Another example. Here we want an index of all nodes directly under all objects with the key name "properties", and later use this index to add a propery in the original object.
+Another example. Here we want an index of all nodes directly under all objects with the key name "properties", and later use this index to add a property in the original object.
 
 ```js
 // run in Node.js
