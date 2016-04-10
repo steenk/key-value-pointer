@@ -93,6 +93,24 @@ var obj = k.getObject();
 var json = k.getJSON();
 ```
 
+## apply
+
+The __apply__ method is to prepare transisions of an object with a function and apply the function as a callback when needed.
+
+```js
+function lic () {
+  this.insert('/copyright', {
+    year: (new Date()).getFullYear(),
+    name: 'Foo Bar',
+    license: 'MIT'
+  });
+}
+
+var json = kvp({}).apply(lic).getJSON();
+
+console.log(json);
+```
+
 ## dirname and basename
 
 A JSON Pointer is like a path, and it can be seen as a concatenation of a directory and a name. To conveniently get these out of the pointer string, the two methods __dirname__ and __basename__ can be used. 
