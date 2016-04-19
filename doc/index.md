@@ -6,8 +6,6 @@ Handle JSON and JavaScript Objects.
 
 
 
-## Method select
-
 Internal implementation of JSON Pointer.
 
 
@@ -18,9 +16,23 @@ Constructor for the kvp object.
 
 
 
+Apply a callback to the JavaScript object.
+* **Parameter** *function* **cb** callback
+
+
+
 ## Method query
 
 The query method for traversing a JavaScript object.
+The callback gets a parameter with three properties: _key_, _value_, and _pointer_.
+* **Parameter** *string* **pointer** optional json pointer
+* **Parameter** *function* **cb** callback
+
+
+
+## Method filter
+
+The filter method for traversing a JavaScript object and returning a filtered object.
 The callback gets a parameter with three properties: _key_, _value_, and _pointer_.
 * **Parameter** *string* **pointer** optional json pointer
 * **Parameter** *function* **cb** callback

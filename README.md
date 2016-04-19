@@ -93,9 +93,21 @@ var obj = k.getObject();
 var json = k.getJSON();
 ```
 
+## dirname and basename
+
+A JSON Pointer is like a path, and it can be seen as a concatenation of a directory and a name. To conveniently get these out of the pointer string, the two methods __dirname__ and __basename__ can be used. 
+
+```js
+var pointer = '/usr/var/log';
+var dir = kvp.dirname(pointer);
+// dir === '/usr/var'
+var name = kvp.basename(pointer);
+// name === 'log'
+```
+
 ## apply
 
-The __apply__ method is to prepare transisions of an object with a function and apply the function as a callback when needed.
+The __apply__ method is to prepare transisions of an object with a function and apply the function as a callback when needed. The __apply__ method is chainable, it returns a kvp wrapped object so any other method can be used on it.
 
 ```js
 function lic () {
@@ -111,16 +123,39 @@ var json = kvp({}).apply(lic).getJSON();
 console.log(json);
 ```
 
-## dirname and basename
+## filter
 
-A JSON Pointer is like a path, and it can be seen as a concatenation of a directory and a name. To conveniently get these out of the pointer string, the two methods __dirname__ and __basename__ can be used. 
+The __filter__ method traverse the whole object, just like the __query__ method, but instead of return the value when the callback returns __true__, it continues and include only parts of the object where the callback returns __true__. The return of the __filter__ method is a kvp wrapped result object, so any method can be chained after the __filter__ method. To stop filtering before the whole object is traversed, do a `this.done = true;` in the callback, since unlike __query__ the __true__ return in the callback will not stop the traverse. The __filter__ method can have an optional first argument in form of a pointer, to limit the traverse on only a part of the object `.filter('/cats', function (node) { ... })`. In case of a pointer argument, the callback can be omitted and whatever the pointer points to will be the filtered result.
 
 ```js
-var pointer = '/usr/var/log';
-var dir = kvp.dirname(pointer);
-// dir === '/usr/var'
-var name = kvp.basename(pointer);
-// name === 'log'
+var obj = kvp({
+  dogs: {
+      sverre: false,
+      tommy: false,
+      solo: true,
+      meja: true
+   },
+   cats: {
+      ziggy: true,
+      kompis: true,
+      svinto: true,
+      polarn: true
+   }
+});
+
+var out1 = obj
+  .filter(function (node) {
+    if (node.key === 'ziggy') this.done = true;
+    if (typeof node.value === 'boolean' && node.value) return true;
+  });
+  
+console.log(out1.getObject());
+// { dogs: { solo: true, meja: true }, cats: { ziggy: true } }
+
+var out2 = out1.filter('/cats').getObject();
+
+console.log(out2);
+// { cats: { ziggy: true } }
 ```
 
 ## Installation

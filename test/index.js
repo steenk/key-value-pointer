@@ -180,6 +180,16 @@ describe('Testing KVP', function () {
 			var name = kvp().basename(p);
 			assert(name === 'log');
 		});
+	});
+
+	describe('filter', function () {
+		var o = {a: -1, b: 2, c: -5, d: 9}
+		it('should filter the object', function () {
+			var res = kvp(o).filter(function (node) {
+				if (node.value > 0) return true;
+			}).getJSON();
+			assert(res === '{"b":2,"d":9}');
+		})
 	})
 })
 
