@@ -190,6 +190,15 @@ describe('Testing KVP', function () {
 			}).getJSON();
 			assert(res === '{"b":2,"d":9}');
 		})
+	});
+
+	describe('result', function () {
+		it('should return canged result', function () {
+			var res = kvp({a:1}).query(function (node) {
+				return 'changed';
+			});
+			assert(res === 'changed');
+		})
 	})
 })
 

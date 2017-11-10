@@ -30,6 +30,8 @@ The __query__ method is a way to traverse all properties inside a JavaScript obj
 
 It is also possible to make the __query__ method start somewhere inside the object instead of traverse all levels, by passing a JSON Pointer before the callback. Here is an example of an object with a list of values, and a property saying what should be the max value in the list. Our query will start in the list property, but can access the whole object inside the callback, and in this case change all values exceeding the max value.
 
+The result of a query is normally the value of the node where the query run is stopped, but by returning something else than __true__, the returned value can be changed.
+
 ```js
 var points = {
 	max: 10,
